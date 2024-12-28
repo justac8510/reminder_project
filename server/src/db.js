@@ -8,13 +8,21 @@ function initialize() {
         CREATE TABLE IF NOT EXISTS notes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         notecontent TEXT NOT NULL,
-        dateadded TEXT NOT NULL`)
-    }),
-    (error) => {
-        console.log(`Error creating table: ${error.message}`);
-    }
+        dateadded TEXT NOT NULL)`
+    ,
+        (error) => {
+            if (error){
+                console.log(`Error creating table: ${error.message}`);
+                return false;
+            } else{
+                console.log('Table created or already exists.');
+                return true;
+            }
+        });
+    });
 
     db.close();
+    return true;
 }
 
 function addNote(newContent, dataAdded) {
@@ -25,20 +33,22 @@ function addNote(newContent, dataAdded) {
         [newContent, dataAdded],
         (error) => {
             console.log(`Error inserting data: ${error.message}`)
+            return false;
         }
     );
 
     db.close();
+    return true;
 }
 
 function viewNotes() {
-    const sqlite3 = require('sqlite3').verbose();
+    const db = new sqlite3.Database("notes.db");
     let notes = []
 
     db.all(`SELECT * FROM notes`, (error, rows) => {
         if (error) {
           console.error(`Error selecting data: ${error.message}`);
-          return;
+          return null;
         }
       
         // Print each row
@@ -59,12 +69,14 @@ function deleteNote(id) {
     db.run(`DELETE FROM notes WHERE id = ?`, [id], (error) => {
         if (error) {
             console.error(`Error deleting note: ${error.message}`);
+            return false;
         } else {
             console.log(`Note with ID ${id} deleted.`);
         }
     });
 
     db.close();
+    return true;
     
 }
 
