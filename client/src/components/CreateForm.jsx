@@ -9,14 +9,14 @@ function CreateForm( { addNote, } ) {
             addNote(content);
             setContent('');
         } else{
-            alert("內容不能為空");
+            alert("Content can not be empty!");
         }
     });
 
     return(
     <form className="create-form" onSubmit={handleSubmit}>
-        <input className="create-form-input" type="text" placeholder="輸入代辦事項" value={content} onChange={(e) => {setContent(e.target.value)}}/>
-        <button className="create-form-button">加入</button>
+        <input className="create-form-input" type="text" placeholder="Enter Text" value={content} onChange={(e) => {setContent(e.target.value)}}/>
+        <button className="create-form-button">Add</button>
     </form>
     );
 }

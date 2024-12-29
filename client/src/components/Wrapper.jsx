@@ -73,7 +73,7 @@ function Wrapper() {
 
     return (
         <div className="note-wrapper">
-            <h1>備忘錄</h1>
+            <h1>Reminder</h1>
             <CreateForm addNote={ addNote }/>
             {notes.map((note) => {
                 return <Note key={ note.id } note={ note }  fetchData={ fetchData }  deleteNote={ deleteNote } updateNote={ updateNote } toogleIsEditing={ toogleIsEditing }/>;
