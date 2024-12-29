@@ -3,7 +3,7 @@ const express = require("express");
 const server_router = express.Router();
 const db_op = require("./database.js");
 
-//get: view, post: "addnote", post: "deletenote"
+//get: view, post: "addnote", post: "deletenote", post: "update"
 
 //test
 server_router.get("/", (req, res) => {
@@ -50,6 +50,21 @@ server_router.post("/deleteNote", async (req, res) => {
         return res.status(200).json({msg: "successful operation"});
     }
     return res.status(404).json({msg: "operation failed"});
+})
+
+//update
+server_router.post("/updateNote", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    let id = req.body.id;
+    let newContent = req.body.newContent;
+
+    let op = await db_op.updateNote(id, newContent);
+
+    if (op) {
+        return res.status(200).json({msg: "successful operation"});
+    }
+    return res.status(404).json({msg: "operation failed"});
+    
 })
 
 module.exports.router = server_router;

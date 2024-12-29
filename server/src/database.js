@@ -133,5 +133,24 @@ const deleteNote = async (id) => {
     }
 }
 
-module.exports = { initialize, viewNotes, addNote, deleteNote };
+//update
+const updateNote = async (id, content) => {
+    const db = new sqlite3.Database("notes.db");
+
+    try {
+        await execute(
+            db, 
+            `UPDATE notes SET notecontent = (?) WHERE id = (?)`,
+            [content, id]
+        );
+    } catch (error) {
+        console.log(error);
+        return false;
+    } finally {
+        db.close();
+        return true;
+    }
+}
+
+module.exports = { initialize, viewNotes, addNote, deleteNote, updateNote };
 
